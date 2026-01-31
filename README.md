@@ -19,7 +19,7 @@ View your Claude.ai usage limits directly from the terminal.
 
 ```bash
 # Clone the repository
-git clone https://github.com/guizhouln/claude-usage.git
+git clone https://github.com/guizhouln/claude-usage-cli.git
 cd claude-usage
 
 # Install dependencies

@@ -22,12 +22,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/guizhouln/claude-usage.git"
+    "url": "git+https://github.com/guizhouln/claude-usage-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/guizhouln/claude-usage/issues"
+    "url": "https://github.com/guizhouln/claude-usage-cli/issues"
   },
-  "homepage": "https://github.com/guizhouln/claude-usage#readme",
+  "homepage": "https://github.com/guizhouln/claude-usage-cli#readme",
   "engines": {
     "bun": ">=1.0.0"
   },
