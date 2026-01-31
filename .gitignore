@@ -1,0 +1,4 @@
+node_modules/
+dist/
+.env
+# Note: ~/.claude-usage.json contains session keys - don't commit personal configs
