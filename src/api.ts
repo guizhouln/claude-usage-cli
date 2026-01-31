@@ -35,43 +35,61 @@ export async function readConfig(): Promise<Config> {
   }
   
   const text = await file.text();
-  return JSON.parse(text) as Config;
+  try {
+    return JSON.parse(text) as Config;
+  } catch {
+    throw new Error('INVALID_JSON');
+  }
 }
 
 // Get organizations
 export async function getOrganizations(sessionKey: string): Promise<Organization[]> {
-  const response = await fetch('https://claude.ai/api/organizations', {
-    headers: {
-      'Cookie': `sessionKey=${sessionKey}`,
-    },
-  });
-  
-  if (!response.ok) {
-    if (response.status === 401 || response.status === 403) {
-      throw new Error('SESSION_EXPIRED');
+  try {
+    const response = await fetch('https://claude.ai/api/organizations', {
+      headers: {
+        'Cookie': `sessionKey=${sessionKey}`,
+      },
+    });
+    
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('SESSION_EXPIRED');
+      }
+      throw new Error(`API_ERROR: ${response.status}`);
     }
-    throw new Error(`API_ERROR: ${response.status}`);
+    
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error && (error.message === 'SESSION_EXPIRED' || error.message.startsWith('API_ERROR'))) {
+      throw error;
+    }
+    throw new Error('NETWORK_ERROR');
   }
-  
-  return response.json();
 }
 
 // Get usage for organization
 export async function getUsage(sessionKey: string, orgUuid: string): Promise<UsageData> {
-  const response = await fetch(`https://claude.ai/api/organizations/${orgUuid}/usage`, {
-    headers: {
-      'Cookie': `sessionKey=${sessionKey}`,
-    },
-  });
-  
-  if (!response.ok) {
-    if (response.status === 401 || response.status === 403) {
-      throw new Error('SESSION_EXPIRED');
+  try {
+    const response = await fetch(`https://claude.ai/api/organizations/${orgUuid}/usage`, {
+      headers: {
+        'Cookie': `sessionKey=${sessionKey}`,
+      },
+    });
+    
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('SESSION_EXPIRED');
+      }
+      throw new Error(`API_ERROR: ${response.status}`);
     }
-    throw new Error(`API_ERROR: ${response.status}`);
+    
+    return response.json();
+  } catch (error) {
+    if (error instanceof Error && (error.message === 'SESSION_EXPIRED' || error.message.startsWith('API_ERROR'))) {
+      throw error;
+    }
+    throw new Error('NETWORK_ERROR');
   }
-  
-  return response.json();
 }
 
 // Find the best organization (prefer claude_max capability)

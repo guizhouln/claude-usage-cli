@@ -24,13 +24,14 @@ async function main() {
     const org = findBestOrg(orgs);
     
     if (!org) {
-      console.error('No organizations found.');
+      console.error('No organizations found for this account.');
       process.exit(1);
     }
     
-     const usage = await getUsage(config.sessionKey, org.uuid);
-     
-     displayUsage(org, usage);
+    const usage = await getUsage(config.sessionKey, org.uuid);
+    
+    displayUsage(org, usage);
+    process.exit(0);
     
   } catch (error) {
     if (error instanceof Error) {
@@ -38,9 +39,17 @@ async function main() {
         console.error("No session found. Run 'claude-usage --login' to authenticate.");
       } else if (error.message === 'SESSION_EXPIRED') {
         console.error("Session expired. Run 'claude-usage --login' to re-authenticate.");
+      } else if (error.message === 'INVALID_JSON') {
+        console.error("Invalid config file. Delete ~/.claude-usage.json and run 'claude-usage --login'.");
+      } else if (error.message === 'NETWORK_ERROR') {
+        console.error("Network error. Check your internet connection.");
+      } else if (error.message.startsWith('API_ERROR')) {
+        console.error("API error. Run 'claude-usage --login' to re-authenticate.");
       } else {
         console.error('Error:', error.message);
       }
+    } else {
+      console.error('An unexpected error occurred.');
     }
     process.exit(1);
   }
