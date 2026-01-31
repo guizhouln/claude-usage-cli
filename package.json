@@ -1,10 +1,35 @@
 {
   "name": "claude-usage",
-  "module": "index.ts",
+  "version": "1.0.0",
+  "description": "CLI tool to view your Claude.ai usage limits directly from the terminal",
   "type": "module",
-  "private": true,
   "bin": {
     "claude-usage": "src/index.ts"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "login": "bun run src/index.ts --login"
+  },
+  "keywords": [
+    "claude",
+    "anthropic",
+    "usage",
+    "cli",
+    "terminal",
+    "rate-limit"
+  ],
+  "author": "guizhouln",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guizhouln/claude-usage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/guizhouln/claude-usage/issues"
+  },
+  "homepage": "https://github.com/guizhouln/claude-usage#readme",
+  "engines": {
+    "bun": ">=1.0.0"
   },
   "devDependencies": {
     "@types/bun": "latest"
