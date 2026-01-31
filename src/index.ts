@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 import { login } from './login';
 import { readConfig, getOrganizations, getUsage, findBestOrg } from './api';
+import { displayUsage } from './display';
 
 async function main() {
   const args = Bun.argv.slice(2);
@@ -27,13 +28,9 @@ async function main() {
       process.exit(1);
     }
     
-    const usage = await getUsage(config.sessionKey, org.uuid);
-    
-    // Temporary: just log the raw data (formatting in next task)
-    console.log(`Organization: ${org.name}`);
-    console.log(`Rate limit tier: ${org.rate_limit_tier}`);
-    console.log('\nUsage Data:');
-    console.log(JSON.stringify(usage, null, 2));
+     const usage = await getUsage(config.sessionKey, org.uuid);
+     
+     displayUsage(org, usage);
     
   } catch (error) {
     if (error instanceof Error) {
